@@ -17,7 +17,7 @@ class PessoaController extends Controller
 
         // load the view and pass the sharks
         return View::make('pessoas.index')
-            ->with('pesoas', $pessoas);
+            ->with('pessoas', $pessoas);
     }
 
     /**
