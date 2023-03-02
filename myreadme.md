@@ -6,3 +6,9 @@ php artisan make:controller PessoaController --resource
 
 # Running Migrations
 php artisan migrate
+
+# globally installing the Laravel
+composer global require laravel/installer
+
+# generate crypto key
+php artisan key:generate
