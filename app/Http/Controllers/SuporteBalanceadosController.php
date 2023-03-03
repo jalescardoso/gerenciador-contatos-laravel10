@@ -6,18 +6,11 @@ use Illuminate\Http\Request;
 use View;
 
 class SuporteBalanceadosController extends Controller {
-    /**
-     * Display a listing of the resource.
-     */
     public function index() {
         return View::make('suportes-balanceados.index')
-        ->with('valido', null);
+            ->with('valido', null);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function store(Request $request)
-    {
+    public function check(Request $request) {
         $valido = null;
         $message = "";
         $string_param = $request->stringSuporte;
@@ -56,12 +49,11 @@ class SuporteBalanceadosController extends Controller {
             $message = "A string {$string_param} é válida!";
         } catch (\Throwable $e) {
             $valido = false;
-            $message = "A string não é valida. ". $e->getMessage();
+            $message = "A string não é valida. " . $e->getMessage();
         }
         return View::make('suportes-balanceados.index')
-        ->with('valido', $valido)
-        ->with('message', $message)
-        ->with('stringSuporte', $request->stringSuporte);
+            ->with('valido', $valido)
+            ->with('message', $message)
+            ->with('stringSuporte', $request->stringSuporte);
     }
-
 }

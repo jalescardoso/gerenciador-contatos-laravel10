@@ -2,7 +2,7 @@
 
 @section('content')
 <h2>Pessoas <a style="float: right;" type="button" class="btn btn-link" href="/suportes-balanceados">Suporte balanceados</a></h2>
-<a href="pessoa" class="btn btn-default" role="button">Adicionar</a>
+<a href="{{ route('pessoa.create') }}" class="btn btn-default" role="button">Adicionar</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -14,7 +14,7 @@
     </thead>
     <tbody>
         @foreach($pessoas as $index => $item)
-        <tr >
+        <tr>
             <td>{{ $item['id'] }}</td>
             <td>{{ $item['nome'] }}</td>
             <td>3</td>
@@ -32,33 +32,33 @@
 
 @push('scripts')
 <script type="module">
-     $(document).ready(function(){
+    $(document).ready(function() {
 
     })
     // angular.module('bravi', ['myService'])
-	// 		.controller('Ctrl', function($scope, $http, MS, $sce, $window) {
-	// 			this.list = [];
-	// 			this.onInit = async () => {
-	// 				let res = await buscaPessoas();
-	// 				this.list = res.data;
-	// 				$scope.$digest();
-					
-	// 			}
-	// 			var buscaPessoas = () => {
-	// 				return $http.get(`api/buscaPessoas`);
-	// 			}
-	// 			this.excluirPessoa = async (id) => {
-	// 				if (!confirm("Excluir pessoa?")) return;
-	// 				await MS.actionHandler(handlerExcluir(id), {
-	// 					msgNotf: 'Sucesso!',
-	// 				});
-	// 				$scope.$digest();
-	// 			}
-	// 			let handlerExcluir = async (id) => {
-	// 				await $http.delete(`api/deletePessoa?id=${id}`);
-	// 				let res = await buscaPessoas();
-	// 				this.list = res.data;
-	// 			}
-	// 		})
+    // 		.controller('Ctrl', function($scope, $http, MS, $sce, $window) {
+    // 			this.list = [];
+    // 			this.onInit = async () => {
+    // 				let res = await buscaPessoas();
+    // 				this.list = res.data;
+    // 				$scope.$digest();
+
+    // 			}
+    // 			var buscaPessoas = () => {
+    // 				return $http.get(`api/buscaPessoas`);
+    // 			}
+    // 			this.excluirPessoa = async (id) => {
+    // 				if (!confirm("Excluir pessoa?")) return;
+    // 				await MS.actionHandler(handlerExcluir(id), {
+    // 					msgNotf: 'Sucesso!',
+    // 				});
+    // 				$scope.$digest();
+    // 			}
+    // 			let handlerExcluir = async (id) => {
+    // 				await $http.delete(`api/deletePessoa?id=${id}`);
+    // 				let res = await buscaPessoas();
+    // 				this.list = res.data;
+    // 			}
+    // 		})
 </script>
 @endpush
