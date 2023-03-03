@@ -23,3 +23,5 @@ php artisan view:cache
 
 # recreated routes
 php artisan route:clear
+
+php artisan optimize:clear
