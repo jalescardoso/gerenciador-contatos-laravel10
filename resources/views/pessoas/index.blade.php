@@ -33,7 +33,7 @@
 @push('scripts')
 <script type="module">
      $(document).ready(function(){
-        // alert('karaalhoooo!')
+
     })
     // angular.module('bravi', ['myService'])
 	// 		.controller('Ctrl', function($scope, $http, MS, $sce, $window) {

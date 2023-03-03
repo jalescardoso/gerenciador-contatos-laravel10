@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\{PessoaController, SuporteBalanceadosController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +12,7 @@ use App\Http\Controllers\PessoaController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::resource('pessoas', PessoaController::class);
+Route::resource('/', PessoaController::class);
+Route::resource('suportes-balanceados', SuporteBalanceadosController::class);
+
