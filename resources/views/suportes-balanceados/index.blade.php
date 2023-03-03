@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a type="button" class="btn btn-link" href="/">Pessoas</a>
+    <a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
     <h2>Verificação de suporte balanceado</h2>
     <form class="form-horizontal" action="{{ route('suportes.check') }}" method="POST">
         {{ csrf_field() }}

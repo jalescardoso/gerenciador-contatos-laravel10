@@ -14,11 +14,10 @@ class PessoaController extends Controller {
             ->with('pessoas', $pessoas);
     }
 
-    public function create() {
-        return View::make('pessoas.edit');
+    public function edit(Request $request) {
+        $pessoa = Pessoa::find($request->id);
+        return View::make('pessoas.edit')
+            ->with('pessoa', $pessoa);
     }
 
-    public function edit(string $id) {
-        return View::make('pessoas.edit');
-    }
 }

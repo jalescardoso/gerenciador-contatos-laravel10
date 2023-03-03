@@ -13,10 +13,10 @@ use App\Http\Controllers\{PessoaController, SuporteBalanceadosController};
 |
 */
 
-Route::get('/', [PessoaController::class, 'index']);
-Route::get('/pessoa', [PessoaController::class, 'create'])->name('pessoa.create');
-Route::get('/pessoa/{id}', [PessoaController::class, 'edit']);
+Route::get('/', [PessoaController::class, 'index'])->name('pessoa.index');
+Route::get('/pessoa', [PessoaController::class, 'edit'])->name('pessoa.create');
+Route::get('/pessoa/{id}', [PessoaController::class, 'edit'])->name('pessoa.edit');
 
 
-Route::get('/suportes-balanceados', [SuporteBalanceadosController::class, 'index']);
+Route::get('/suportes-balanceados', [SuporteBalanceadosController::class, 'index'])->name('suportes.index');
 Route::post('/suportes-balanceados', [SuporteBalanceadosController::class, 'check'])->name('suportes.check');

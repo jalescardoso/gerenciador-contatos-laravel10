@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<a type="button" class="btn btn-link" href="/">Pessoas</a>
+	<a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
 	<form class="form-horizontal" ng-submit='ctrl.submitPessoa()'>
 		<div class="form-group">
 			<label class="control-label col-sm-2">Nome:</label>
@@ -17,6 +17,7 @@
 		</div>
 	</form>
 </div>
+@if($pessoa)
 <div class="container" ng-if="ctrl.data.id">
 	<h2>Contatos</h2>
 	<a ng-click="ctrl.novoContato()" class="btn btn-default" role="button">Adicionar</a>
@@ -42,6 +43,7 @@
 		</tbody>
 	</table>
 </div>
+@endif
 <div class="modal fade" id="myModal" role="dialog">
 	<form class="form-horizontal mt20" ng-submit='ctrl.submitContato()'>
 		<div class="modal-dialog">

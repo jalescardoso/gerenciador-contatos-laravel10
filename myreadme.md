@@ -15,13 +15,14 @@ php artisan key:generate
 
 
 
-# build para produção
+# build to production
 composer install --optimize-autoloader --no-dev
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-# recreated routes
 php artisan route:clear
 
 php artisan optimize:clear
+
+# create form request
+php artisan make:request PessoaPostRequest
