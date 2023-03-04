@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{PessoaController, SuporteBalanceadosController};
+use App\Http\Controllers\{PessoaController, SuporteBalanceadosController, ContatoController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,9 @@ Route::get('/', [PessoaController::class, 'index'])->name('pessoa.index');
 Route::get('/pessoa', [PessoaController::class, 'edit'])->name('pessoa.create');
 Route::get('/pessoa/{id}', [PessoaController::class, 'edit'])->name('pessoa.edit');
 Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
+Route::put('/pessoa/{id}', [PessoaController::class, 'update'])->name('pessoa.update');
+
+Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
 
 
 Route::get('/suportes-balanceados', [SuporteBalanceadosController::class, 'index'])->name('suportes.index');

@@ -9,11 +9,18 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('pessoas', function (Blueprint $table) {
+        Schema::create('contatos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->unsignedBigInteger('id_pessoa');
+            $table->string('descricao');
+            $table->string('valor');
+            $table->enum('tipo', ['Telefone', 'Whatsapp', 'Email']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->foreign('id_pessoa')
+                ->references('id')
+                ->on('pessoas')
+                ->onDelete('cascade');
         });
     }
 
@@ -21,6 +28,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('pessoas');
+        Schema::dropIfExists('contatos');
     }
 };

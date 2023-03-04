@@ -27,4 +27,5 @@ php artisan optimize:clear
 # create form request
 php artisan make:request PessoaPostRequest
 
-php artisan make:controller jalesController --model=jales --resource --requests
+php artisan make:controller ContatoController --model=Contato --resource --requests
+php artisan make:migration create_contatos_table --table=contatos --create

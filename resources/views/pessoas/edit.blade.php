@@ -3,12 +3,19 @@
 @section('content')
 <div class="container">
 	<a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
-	<form class="form-horizontal" action="{{ route('pessoa.store') }}" method="POST">
+
+	@if($pessoa->id)
+		<form action="{{ route('pessoa.update', ['id' => $pessoa->id]) }}" method="POST">
+			@method('PUT')
+	@else
+		<form action="{{ route('pessoa.store') }}" method="POST">
+	@endif
 		{{ csrf_field() }}
+		<input type="hidden" name='id' value="{{$pessoa->id}}" />
 		<div class="form-group">
 			<label class="control-label col-sm-2">Nome:</label>
 			<div class="col-sm-10">
-				<input class="form-control" required name="nome">
+				<input class="form-control" required name="nome" value="{{$pessoa->nome}}">
 			</div>
 		</div>
 		<div class="form-group">
@@ -32,8 +39,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="row in ctrl.data.contatos">
-				<td>abc</td>
+			@foreach($contatos as $item)
+			<tr >
+				<td>{{ $item['descricao'] }}</td>
 				<td>terefoni</td>
 				<td>(66) 6666-6666</td>
 				<td>
@@ -41,12 +49,15 @@
 					<span ng-click="ctrl.excluirContato(row.id)" title="remover" class="glyphicon glyphicon-remove"></span>
 				</td>
 			</tr>
+			@endforeach
 		</tbody>
 	</table>
 </div>
 @endif
 <div class="modal fade" id="myModal" role="dialog">
-	<form class="form-horizontal mt20" ng-submit='ctrl.submitContato()'>
+	<form class="form-horizontal mt20" action="{{ route('contato.store') }}" method="POST">
+		{{ csrf_field() }}
+		<input type="hidden" name='id_pessoa' value="{{$pessoa->id}}" />
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -57,13 +68,13 @@
 					<div class='form-group'>
 						<label class='col-md-2 control-label'>Descrição</label>
 						<div class='col-md-10'>
-							<input required class='form-control' ng-model='ctrl.contato.descricao' />
+							<input required class='form-control' name='descricao' />
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-lg-2 control-label'>Tipo</label>
 						<div class='col-lg-10'>
-							<select class='form-control' ng-model='ctrl.contato.tipo'>
+							<select class='form-control' name='tipo'>
 								<option value="" hidden>Selecione..</option>
 								<option value="Whatsapp">Whatsapp</option>
 								<option value="Telefone">Telefone</option>
@@ -74,15 +85,15 @@
 					<div class='form-group' ng-if="ctrl.contato.tipo != 'Email'">
 						<label class='col-md-2 control-label'>Telefone</label>
 						<div class='col-md-10'>
-							<input required type="tel" class='form-control telefone' ng-model='ctrl.contato.valor' />
+							<input type="tel" class='form-control telefone' name='valor' />
 						</div>
 					</div>
-					<div class='form-group' ng-if="ctrl.contato.tipo == 'Email'">
+					<!-- <div class='form-group' ng-if="ctrl.contato.tipo == 'Email'">
 						<label class='col-md-2 control-label'>Email</label>
 						<div class='col-md-10'>
-							<input required class='form-control' type='email' ng-model='ctrl.contato.valor' />
+							<input class='form-control' type='email' name='valor' />
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default">Salvar</button>
@@ -96,7 +107,6 @@
 
 @push('scripts')
 <script type="module">
-	
 	$(document).ready(function() {
 		// $('.telefone').mask('(00) 00000-0000');
 		const myModalAlternative = new bootstrap.Modal('#myModal')
