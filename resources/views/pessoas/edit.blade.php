@@ -21,7 +21,7 @@
 @if($pessoa)
 <div class="container" ng-if="ctrl.data.id">
 	<h2>Contatos</h2>
-	<a ng-click="ctrl.novoContato()" class="btn btn-default" role="button">Adicionar</a>
+	<a id="adicionarContato" class="btn btn-default" role="button">Adicionar</a>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -96,9 +96,18 @@
 
 @push('scripts')
 <script type="module">
+	
 	$(document).ready(function() {
 		// $('.telefone').mask('(00) 00000-0000');
+		const myModalAlternative = new bootstrap.Modal('#myModal')
+		$("#adicionarContato").click(function(ev) {
+			myModalAlternative.show();
+		});
+		$("[data-dismiss='modal']").click(function(ev) {
+			myModalAlternative.hide();
+		});
 	})
+
 	// angular.module('bravi', ['myService'])
 	// .controller('Ctrl', function($scope, $http, MS, $sce, $window, $location) {
 	//     this.data = {};
