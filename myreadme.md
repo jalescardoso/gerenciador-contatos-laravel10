@@ -26,3 +26,5 @@ php artisan optimize:clear
 
 # create form request
 php artisan make:request PessoaPostRequest
+
+php artisan make:controller jalesController --model=jales --resource --requests

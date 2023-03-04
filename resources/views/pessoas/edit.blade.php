@@ -3,11 +3,12 @@
 @section('content')
 <div class="container">
 	<a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
-	<form class="form-horizontal" ng-submit='ctrl.submitPessoa()'>
+	<form class="form-horizontal" action="{{ route('pessoa.store') }}" method="POST">
+		{{ csrf_field() }}
 		<div class="form-group">
 			<label class="control-label col-sm-2">Nome:</label>
 			<div class="col-sm-10">
-				<input class="form-control" required ng-model="ctrl.data.nome">
+				<input class="form-control" required name="nome">
 			</div>
 		</div>
 		<div class="form-group">

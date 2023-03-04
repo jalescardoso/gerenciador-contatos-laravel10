@@ -16,6 +16,7 @@ use App\Http\Controllers\{PessoaController, SuporteBalanceadosController};
 Route::get('/', [PessoaController::class, 'index'])->name('pessoa.index');
 Route::get('/pessoa', [PessoaController::class, 'edit'])->name('pessoa.create');
 Route::get('/pessoa/{id}', [PessoaController::class, 'edit'])->name('pessoa.edit');
+Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
 
 
 Route::get('/suportes-balanceados', [SuporteBalanceadosController::class, 'index'])->name('suportes.index');
