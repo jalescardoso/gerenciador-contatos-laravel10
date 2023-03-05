@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Pessoas <a style="float: right;" type="button" class="btn btn-link" href="{{ route('suportes.index') }}">Suporte balanceados</a></h2>
-<a href="{{ route('pessoa.create') }}" class="btn btn-default" role="button">Adicionar</a>
+<h2>Pessoas </h2>
+<a style="float: right;" title="Suporte balanceados" href="{{ route('suportes.index') }}">Suporte balanceados</a>
+
+<a href="{{ route('pessoa.create') }}" title="Adicionar">Adicionar</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,12 +19,20 @@
         <tr>
             <td>{{ $item['id'] }}</td>
             <td>{{ $item['nome'] }}</td>
-            <td>n implmentado</td>
+            <td>{{ count($item->contatos) }}</td>
             <td>
-                <a href="{{ route('pessoa.edit', ['id' => $item->id]) }}">
-                    <span title="editar" class="glyphicon glyphicon-edit">a</span>
-                </a> &nbsp;
-                <span ng-click="ctrl.excluirPessoa(row.id)" title="remover" class="glyphicon glyphicon-remove"></span>
+                <form>
+                    <a class="link-primary" href="{{ route('pessoa.edit', ['id' => $item->id]) }}">
+                        <span title="editar" class="glyphicon glyphicon-edit">editar</span>
+                    </a>
+                </form>
+                <form action="{{ route('pessoa.delete', ['id' => $item->id]) }}" method="POST">
+                    {{ csrf_field() }}
+                    @method('DELETE')
+                    <button class="link-primary" type="submit">
+                        <span title="remover" class="glyphicon glyphicon-remove">remover</span>
+                    </button>
+                </form>
             </td>
         </tr>
         @endforeach

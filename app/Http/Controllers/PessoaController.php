@@ -23,7 +23,7 @@ class PessoaController extends Controller {
         $pessoa->save();
         return redirect()->route('pessoa.edit', [
             'id' => $pessoa->id,
-        ])->with('success', 'Categoria registrada com sucesso!');
+        ])->with('success', 'Pessoa registrada com sucesso!');
     }
     public function update(PessoaRequest $request) {
         $pessoa =  Pessoa::find($request->id);
@@ -31,6 +31,11 @@ class PessoaController extends Controller {
         $pessoa->save();
         return redirect()->route('pessoa.edit', [
             'id' => $pessoa->id,
-        ])->with('success', 'Categoria registrada com sucesso!');
+        ])->with('success', 'Pessoa alterada com sucesso!');
+    }
+    public function destroy(Request $request) {
+        $pessoa =  Pessoa::find($request->id);
+        $status = $pessoa->delete();
+        return redirect()->route('pessoa.index')->with('success', 'Pessoa apagada com sucesso!');
     }
 }

@@ -1,9 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
 	<a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
-
 	@if($pessoa->id)
 	<form action="{{ route('pessoa.update', ['id' => $pessoa->id]) }}" method="POST">
 		@method('PUT')
@@ -25,7 +23,7 @@
 			</div>
 		</form>
 </div>
-@if($pessoa)
+@if($pessoa->id)
 <div class="container" ng-if="ctrl.data.id">
 	<h2>Contatos</h2>
 	<a id="adicionarContato" class="btn btn-default" role="button">Adicionar</a>
@@ -35,18 +33,28 @@
 				<th>Descrição</th>
 				<th>Tipo de contato</th>
 				<th>Valor</th>
-				<th>Email</th>
+				<th>Ações</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($pessoa->contatos as $item)
 			<tr>
 				<td>{{ $item['descricao'] }}</td>
-				<td>terefoni</td>
-				<td>(66) 6666-6666</td>
+				<td>{{ $item['tipo'] }}</td>
+				<td>{{ $item['valor'] }}</td>
 				<td>
-					<span ng-click="ctrl.novoContato(row)" title="editar" class="glyphicon glyphicon-edit"></span>&nbsp;
-					<span ng-click="ctrl.excluirContato(row.id)" title="remover" class="glyphicon glyphicon-remove"></span>
+					<form>
+						<a class="link-primary" onClick="getContato({{ $item['id'] }})">
+							<span title="editar" class="glyphicon glyphicon-edit">editar</span>
+						</a>
+					</form>
+					<form action="{{ route('contato.delete', ['id' => $item->id]) }}" method="POST">
+						{{ csrf_field() }}
+						@method('DELETE')
+						<button class="link-primary" type="submit">
+							<span title="remover" class="glyphicon glyphicon-remove">remover</span>
+						</button>
+					</form>
 				</td>
 			</tr>
 			@endforeach
@@ -57,6 +65,7 @@
 <div class="modal fade" id="myModal" role="dialog">
 	<form class="form-horizontal mt20" action="{{ route('contato.store') }}" method="POST">
 		{{ csrf_field() }}
+		<input type="hidden" name="_method" value="POST">
 		<input type="hidden" name='id_pessoa' value="{{$pessoa->id}}" />
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -82,10 +91,10 @@
 							</select>
 						</div>
 					</div>
-					<div class='form-group' ng-if="ctrl.contato.tipo != 'Email'">
+					<div class='form-group' id="tipo_contato">
 						<label class='col-md-2 control-label'>Telefone</label>
 						<div class='col-md-10'>
-							<input type="tel" class='form-control telefone' name='valor' />
+							<input type="tel" class='form-control' name='valor' />
 						</div>
 					</div>
 					<!-- <div class='form-group' ng-if="ctrl.contato.tipo == 'Email'">
@@ -103,31 +112,53 @@
 		</div>
 	</form>
 </div>
-<div class="modal fade" id="modalEdit" role="dialog">
-
-</div>
 @endsection
-
 @push('scripts')
 <script type="module">
-	$(document).ready(function() {
-		const adicionarContatolModal = new bootstrap.Modal('#myModal')
-		$("#adicionarContato").click(function(ev) {
-			adicionarContatolModal.show();
-		});
-		$("[data-dismiss='modal']").click(function(ev) {
-			adicionarContatolModal.hide();
-		});
+	const contatolModal = new bootstrap.Modal('#myModal');
+	$("#adicionarContato").click(function(ev) {
+		$('#myModal form').trigger("reset");
+		$("#myModal [name='tipo']").trigger("change");
+		$('#myModal form').attr("action", "{{ route('contato.store') }}");
+		$("#myModal [name='_method']").val('POST');
+		contatolModal.show();
 	});
-	async function getContato(id) {
+	$("[data-dismiss='modal']").click(function(ev) {
+		contatolModal.hide();
+	});
+	$("#myModal [name='tipo']").change(function(ev) {
+		$("#myModal #tipo_contato input").val("");
+		$("#myModal #tipo_contato input").attr("type", "text");
+		Inputmask.remove("#myModal #tipo_contato input");
+		let tipo = $("#myModal [name='tipo']").val();
+		$("#myModal #tipo_contato label").text(tipo);
+		if(tipo == "Email") {
+			// Inputmask({ "mask": '' }).mask("#myModal #tipo_contato input");
+			$("#myModal #tipo_contato input").attr("type", "email");
+		} else {
+			Inputmask({ "mask": ['(99) 9999-9999', '(99) 99999-9999'] }).mask("#myModal #tipo_contato input");
+			$("#myModal #tipo_contato input").attr("type", "tel");
+		}
+	})
+	window.getContato = async (id) => {
 		try {
-			const response = await axios.get("{{ route('contato.edit') }}", { params: { id: 42 } });
-			console.log(response);
+			const response = await axios.get("{{ route('contato.edit') }}", {
+				params: {
+					id
+				}
+			});
+			$('#myModal form').trigger("reset");
+			let route = "{{ route('contato.update', ['id' => '_|_']) }}";
+			$('#myModal form').attr("action", route.replace('_|_', id));
+			$("#myModal [name='_method']").val('put');
+			$("#myModal [name='descricao']").val(response.data.descricao);
+			$("#myModal [name='valor']").val(response.data.valor);
+			$("#myModal [name='tipo']").val(response.data.tipo).change();
+			contatolModal.show();
 		} catch (error) {
 			console.error(error);
 		}
 	}
-
 	// angular.module('bravi', ['myService'])
 	// .controller('Ctrl', function($scope, $http, MS, $sce, $window, $location) {
 	//     this.data = {};
