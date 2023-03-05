@@ -23,14 +23,14 @@
             <td>
                 <form>
                     <a class="link-primary" href="{{ route('pessoa.edit', ['id' => $item->id]) }}">
-                        <span title="editar" class="glyphicon glyphicon-edit">editar</span>
+                        <span title="editar" class="glyphicon glyphicon-edit"><i class="bi bi-pencil"></i></span>
                     </a>
                 </form>
                 <form action="{{ route('pessoa.delete', ['id' => $item->id]) }}" method="POST">
                     {{ csrf_field() }}
                     @method('DELETE')
                     <button class="link-primary" type="submit">
-                        <span title="remover" class="glyphicon glyphicon-remove">remover</span>
+                        <span title="remover" class="glyphicon glyphicon-remove"><i class="bi bi-trash3"></i></span>
                     </button>
                 </form>
             </td>
@@ -39,36 +39,3 @@
     </tbody>
 </table>
 @endsection
-
-@push('scripts')
-<script type="module">
-    $(document).ready(function() {
-
-    })
-    // angular.module('bravi', ['myService'])
-    // 		.controller('Ctrl', function($scope, $http, MS, $sce, $window) {
-    // 			this.list = [];
-    // 			this.onInit = async () => {
-    // 				let res = await buscaPessoas();
-    // 				this.list = res.data;
-    // 				$scope.$digest();
-
-    // 			}
-    // 			var buscaPessoas = () => {
-    // 				return $http.get(`api/buscaPessoas`);
-    // 			}
-    // 			this.excluirPessoa = async (id) => {
-    // 				if (!confirm("Excluir pessoa?")) return;
-    // 				await MS.actionHandler(handlerExcluir(id), {
-    // 					msgNotf: 'Sucesso!',
-    // 				});
-    // 				$scope.$digest();
-    // 			}
-    // 			let handlerExcluir = async (id) => {
-    // 				await $http.delete(`api/deletePessoa?id=${id}`);
-    // 				let res = await buscaPessoas();
-    // 				this.list = res.data;
-    // 			}
-    // 		})
-</script>
-@endpush

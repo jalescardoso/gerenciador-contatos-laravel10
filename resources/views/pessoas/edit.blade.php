@@ -45,14 +45,14 @@
 				<td>
 					<form>
 						<a class="link-primary" onClick="getContato({{ $item['id'] }})">
-							<span title="editar" class="glyphicon glyphicon-edit">editar</span>
+							<span title="editar" class="glyphicon glyphicon-edit"><i class="bi bi-pencil"></i></span>
 						</a>
 					</form>
 					<form action="{{ route('contato.delete', ['id' => $item->id]) }}" method="POST">
 						{{ csrf_field() }}
 						@method('DELETE')
 						<button class="link-primary" type="submit">
-							<span title="remover" class="glyphicon glyphicon-remove">remover</span>
+							<span title="remover" class="glyphicon glyphicon-remove"><i class="bi bi-trash3"></i></span>
 						</button>
 					</form>
 				</td>
@@ -94,15 +94,9 @@
 					<div class='form-group' id="tipo_contato">
 						<label class='col-md-2 control-label'>Telefone</label>
 						<div class='col-md-10'>
-							<input type="tel" class='form-control' name='valor' />
+							<input class='form-control' name='valor' />
 						</div>
 					</div>
-					<!-- <div class='form-group' ng-if="ctrl.contato.tipo == 'Email'">
-						<label class='col-md-2 control-label'>Email</label>
-						<div class='col-md-10'>
-							<input class='form-control' type='email' name='valor' />
-						</div>
-					</div> -->
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default">Salvar</button>
@@ -127,13 +121,11 @@
 		contatolModal.hide();
 	});
 	$("#myModal [name='tipo']").change(function(ev) {
-		$("#myModal #tipo_contato input").val("");
 		$("#myModal #tipo_contato input").attr("type", "text");
 		Inputmask.remove("#myModal #tipo_contato input");
 		let tipo = $("#myModal [name='tipo']").val();
 		$("#myModal #tipo_contato label").text(tipo);
 		if(tipo == "Email") {
-			// Inputmask({ "mask": '' }).mask("#myModal #tipo_contato input");
 			$("#myModal #tipo_contato input").attr("type", "email");
 		} else {
 			Inputmask({ "mask": ['(99) 9999-9999', '(99) 99999-9999'] }).mask("#myModal #tipo_contato input");
@@ -142,11 +134,7 @@
 	})
 	window.getContato = async (id) => {
 		try {
-			const response = await axios.get("{{ route('contato.edit') }}", {
-				params: {
-					id
-				}
-			});
+			const response = await axios.get("{{ route('contato.edit') }}", { params: { id } });
 			$('#myModal form').trigger("reset");
 			let route = "{{ route('contato.update', ['id' => '_|_']) }}";
 			$('#myModal form').attr("action", route.replace('_|_', id));
@@ -159,74 +147,5 @@
 			console.error(error);
 		}
 	}
-	// angular.module('bravi', ['myService'])
-	// .controller('Ctrl', function($scope, $http, MS, $sce, $window, $location) {
-	//     this.data = {};
-	//     this.contato = {};
-	//     this.onInit = async () => {
-	//         const params = new Proxy(new URLSearchParams(window.location.search), {
-	//             get: (searchParams, prop) => searchParams.get(prop),
-	//         });
-	//         if (params.id) this.data.id = params.id;
-	//         let res = await buscaPessoa(this.data.id);
-	//         this.data = res.data;
-	//         $scope.$digest();
-	//     }
-	//     var buscaPessoa = (id_pessoa) => {
-	//         if (!id_pessoa) return {
-	//             data: {}
-	//         };
-	//         return $http.get(`api/buscaPessoa?id=${id_pessoa}`);
-	//     }
-	//     this.novoContato = (contato = {}) => {
-	//         this.contato = Object.assign({}, contato);
-	//         $('#myModal').modal('toggle');
-	//     }
-	//     this.submitPessoa = async () => {
-	//         await MS.actionHandler(handlersubmitPessoa(), {
-	//             msgNotf: 'Sucesso!',
-	//             selectorLoad: '#myModal'
-	//         });
-	//         $scope.$digest();
-	//     }
-	//     let handlersubmitPessoa = async () => {
-	//         let res0 = await $http.post(`api/submitPessoa`, this.data);
-	//         if (!this.data.id) {
-	//             const url = new URL(location.href);
-	//             url.searchParams.set('id', res0.data.id);
-	//             location.href = url.href;
-	//         } else {
-	//             let res = await buscaPessoa(this.data.id);
-	//             this.data = res.data;
-	//         }
-	//     }
-	//     this.submitContato = async () => {
-	//         await MS.actionHandler(handlersubmitContato(), {
-	//             msgNotf: 'Sucesso!',
-	//             selectorLoad: '#myModal'
-	//         });
-	//         $scope.$digest();
-	//         $('#myModal').modal('toggle');
-	//     }
-	//     let handlersubmitContato = async () => {
-	//         this.contato.id_pessoa = this.data.id;
-	//         await $http.post(`api/submitContato`, this.contato);
-	//         let res = await buscaPessoa(this.data.id);
-	//         this.data = res.data;
-	//     }
-	//     this.excluirContato = async (id) => {
-	//         if (!confirm("Excluir contato?")) return;
-	//         await MS.actionHandler(handlerExcluirContato(id), {
-	//             msgNotf: 'Sucesso!',
-	//             selectorLoad: '#myModal'
-	//         });
-	//         $scope.$digest();
-	//     }
-	//     let handlerExcluirContato = async (id) => {
-	//         await $http.delete(`api/deleteContato?id=${id}`);
-	//         let res = await buscaPessoa(this.data.id);
-	//         this.data = res.data;
-	//     }
-	// })
 </script>
 @endpush
