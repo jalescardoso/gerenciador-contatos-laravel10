@@ -5,25 +5,25 @@
 	<a type="button" class="btn btn-link" href="{{ route('pessoa.index') }}">Pessoas</a>
 
 	@if($pessoa->id)
-		<form action="{{ route('pessoa.update', ['id' => $pessoa->id]) }}" method="POST">
-			@method('PUT')
-	@else
+	<form action="{{ route('pessoa.update', ['id' => $pessoa->id]) }}" method="POST">
+		@method('PUT')
+		@else
 		<form action="{{ route('pessoa.store') }}" method="POST">
-	@endif
-		{{ csrf_field() }}
-		<input type="hidden" name='id' value="{{$pessoa->id}}" />
-		<div class="form-group">
-			<label class="control-label col-sm-2">Nome:</label>
-			<div class="col-sm-10">
-				<input class="form-control" required name="nome" value="{{$pessoa->nome}}">
+			@endif
+			{{ csrf_field() }}
+			<input type="hidden" name='id' value="{{$pessoa->id}}" />
+			<div class="form-group">
+				<label class="control-label col-sm-2">Nome:</label>
+				<div class="col-sm-10">
+					<input class="form-control" required name="nome" value="{{$pessoa->nome}}">
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default">Salvar</button>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Salvar</button>
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
 </div>
 @if($pessoa)
 <div class="container" ng-if="ctrl.data.id">
@@ -39,8 +39,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($contatos as $item)
-			<tr >
+			@foreach($pessoa->contatos as $item)
+			<tr>
 				<td>{{ $item['descricao'] }}</td>
 				<td>terefoni</td>
 				<td>(66) 6666-6666</td>
@@ -103,20 +103,30 @@
 		</div>
 	</form>
 </div>
+<div class="modal fade" id="modalEdit" role="dialog">
+
+</div>
 @endsection
 
 @push('scripts')
 <script type="module">
 	$(document).ready(function() {
-		// $('.telefone').mask('(00) 00000-0000');
-		const myModalAlternative = new bootstrap.Modal('#myModal')
+		const adicionarContatolModal = new bootstrap.Modal('#myModal')
 		$("#adicionarContato").click(function(ev) {
-			myModalAlternative.show();
+			adicionarContatolModal.show();
 		});
 		$("[data-dismiss='modal']").click(function(ev) {
-			myModalAlternative.hide();
+			adicionarContatolModal.hide();
 		});
-	})
+	});
+	async function getContato(id) {
+		try {
+			const response = await axios.get("{{ route('contato.edit') }}", { params: { id: 42 } });
+			console.log(response);
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	// angular.module('bravi', ['myService'])
 	// .controller('Ctrl', function($scope, $http, MS, $sce, $window, $location) {

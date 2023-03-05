@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\{Pessoa, Contato};
 use View;
 use App\Http\Requests\{PessoaRequest};
-use Illuminate\Support\Facades\DB;
+
 class PessoaController extends Controller {
     public function index() {
         $pessoas = Pessoa::all();
@@ -13,13 +15,9 @@ class PessoaController extends Controller {
     }
     public function edit(Request $request) {
         $pessoa = Pessoa::find($request->id);
-        // $contatos = Contato::where('id_pessoa', '=', $pessoa->id)->get();
-        $contatos = $pessoa->Contatos();
         return View::make('pessoas.edit')
-            ->with('pessoa', $pessoa)
-            ->with('contatos', $contatos);
+            ->with('pessoa', ($pessoa ?? new Pessoa()));
     }
-
     public function store(PessoaRequest $request) {
         $pessoa = new Pessoa($request->all());
         $pessoa->save();

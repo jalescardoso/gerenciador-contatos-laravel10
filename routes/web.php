@@ -20,6 +20,7 @@ Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store')
 Route::put('/pessoa/{id}', [PessoaController::class, 'update'])->name('pessoa.update');
 
 Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
+Route::put('/contato', [ContatoController::class, 'update'])->name('contato.update');
 
 
 Route::get('/suportes-balanceados', [SuporteBalanceadosController::class, 'index'])->name('suportes.index');
